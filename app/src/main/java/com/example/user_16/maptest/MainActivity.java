@@ -19,6 +19,7 @@ import com.nhn.android.mapviewer.overlay.NMapPOIdataOverlay;
 
 public class MainActivity extends NMapActivity {
 
+
     //클라이언트 아이디
     public static final String Client_ID = "Uh0Rg6lwLbguQhv_8zr4";
     NMapView mMapView = null;                   //네이버 맵 객체
@@ -26,7 +27,6 @@ public class MainActivity extends NMapActivity {
     LinearLayout MapContainer;                  //맵을 추가할 레이아웃
     NMapViewerResourceProvider mMapViewerResourceProvider = null;
     NMapOverlayManager mMapOverlayManager;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +38,12 @@ public class MainActivity extends NMapActivity {
 
         //지도 객체 생성
         mMapView = new NMapView(this);
-
+        Log.d("맵뷰",mMapView.toString());
         //지도 객체로부터 컨트롤러 추출
         mMapController = mMapView.getMapController();
 
         //지도 객체에 Client_ID 지정
-        mMapView.setApiKey(Client_ID);
+        mMapView.setClientId(Client_ID);
 
         //생성된 지도 객체를 LinearLayout에 추가
         MapContainer.addView(mMapView);
@@ -52,7 +52,7 @@ public class MainActivity extends NMapActivity {
         mMapView.setClickable(true);
 
         //확대 축소를 위한 줌 컨트롤러 표시 옵션 활성화
-        mMapView.setBuiltInZoomControls(true, null);
+        //mMapView.setBuiltInZoomControls(true, null);
 
         //지도에 대한 상태 변경 이벤트 연결
         mMapView.setOnMapStateChangeListener(onMapViewStateChangeListener);
@@ -100,7 +100,7 @@ public class MainActivity extends NMapActivity {
         public void onMapInitHandler(NMapView nMapView, NMapError nMapError) {
 
             if(nMapError == null) { //성공
-                mMapController.setMapCenter(new NGeoPoint(126.82575, 37.487444), 11);
+                mMapController.setMapCenter(new NGeoPoint(126.82575, 37.487444), 13);
             }
             else { //실패
                 Log.e("NMAP", "onMapInitHandler: 에러=" + nMapError.toString());
@@ -155,6 +155,7 @@ public class MainActivity extends NMapActivity {
             NMapPOIdata poiData = new NMapPOIdata(0,mMapViewerResourceProvider);
             poiData.beginPOIdata(1);
             poiData.addPOIitem(selectPoint, "내가 선택한거", markerID,0);
+
             poiData.endPOIdata();
             NMapPOIdataOverlay poiDataOverlay = mMapOverlayManager.createPOIdataOverlay(poiData,null);
 
